@@ -1,0 +1,851 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RideHer - Premium Riding Service for Women</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.9.1/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.9.1/ScrollTrigger.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+            scroll-behavior: smooth;
+        }
+
+        :root {
+            --primary: #6e0d3c;
+            --secondary: #a2358cfa;
+            --accent: #b8cdc6;
+            --light: #e2c0dd;
+            --dark: #5c5b5b;
+        }
+
+        body {
+            background-color: #fff;
+            color: var(--dark);
+            overflow-x: hidden;
+        }
+
+        header {
+            background-color: rgba(255, 255, 255, 0.9);
+            position: fixed;
+            width: 100%;
+            padding: 20px 0;
+            z-index: 1000;
+            box-shadow: 0 2px 15px rgba(0, 0, 0, 0.05);
+            transition: all 0.3s ease;
+        }
+
+        header.scrolled {
+            padding: 12px 0;
+            background-color: rgba(255, 255, 255, 0.98);
+        }
+
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .nav-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-weight: 700;
+            font-size: 1.8rem;
+            color: var(--primary);
+            text-decoration: none;
+        }
+
+        .logo span {
+            color: var(--accent);
+        }
+
+        nav ul {
+            display: flex;
+            list-style: none;
+        }
+
+        nav ul li {
+            margin-left: 30px;
+        }
+
+        nav ul li a {
+            text-decoration: none;
+            color: var(--dark);
+            font-weight: 500;
+            transition: color 0.3s ease;
+            position: relative;
+        }
+
+        nav ul li a:after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: -5px;
+            left: 0;
+            background-color: var(--primary);
+            transition: width 0.3s ease;
+        }
+
+        nav ul li a:hover {
+            color: var(--primary);
+        }
+
+        nav ul li a:hover:after {
+            width: 100%;
+        }
+
+        .hero {
+            height: 100vh;
+            background: linear-gradient(rgba(255, 255, 255, 0.8), rgba(255, 255, 255, 0.8)), url('/api/placeholder/1920/1080') center/cover no-repeat;
+            display: flex;
+            align-items: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-content {
+            width: 90%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding-top: 60px;
+        }
+
+        .hero-text {
+            max-width: 600px;
+            opacity: 0;
+            transform: translateY(30px);
+        }
+
+        h1 {
+            font-size: 3.5rem;
+            font-weight: 700;
+            margin-bottom: 20px;
+            color: var(--dark);
+            line-height: 1.2;
+        }
+
+        h1 span {
+            color: var(--primary);
+        }
+
+        .hero-text p {
+            font-size: 1.1rem;
+            line-height: 1.6;
+            margin-bottom: 30px;
+            color: var(--dark);
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 12px 30px;
+            background-color: var(--primary);
+            color: white;
+            border-radius: 30px;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            border: 2px solid var(--primary);
+        }
+
+        .btn:hover {
+            background-color: transparent;
+            color: var(--primary);
+        }
+
+        .btn-secondary {
+            background-color: transparent;
+            color: var(--primary);
+            margin-left: 15px;
+        }
+
+        .btn-secondary:hover {
+            background-color: var(--primary);
+            color: white;
+        }
+
+        .hero-image {
+            position: absolute;
+            right: -5%;
+            bottom: -14%;
+            width: 50%;
+            transform: translateX(100px);
+            opacity: 0;
+        }
+
+        .about {
+            padding: 100px 0;
+            background-color: var(--light);
+        }
+
+        .about-content {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 60px;
+        }
+
+        .about-text {
+            flex: 1;
+            opacity: 0;
+            transform: translateY(30px);
+        }
+
+        .about-image {
+            flex: 1;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            opacity: 0;
+            transform: translateX(30px);
+        }
+
+        .about-image img {
+            width: 100%;
+            display: block;
+        }
+
+        h2 {
+            font-size: 2.5rem;
+            margin-bottom: 25px;
+            color: var(--dark);
+        }
+
+        .features {
+            padding: 100px 0;
+            background-color: white;
+        }
+
+        .features-title {
+            text-align: center;
+            margin-bottom: 70px;
+            opacity: 0;
+            transform: translateY(30px);
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 30px;
+        }
+
+        .feature-card {
+            background-color: #fff;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.05);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            opacity: 0;
+            transform: translateY(30px);
+        }
+
+        .feature-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .feature-icon {
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+            color: var(--primary);
+        }
+
+        .feature-card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+            color: var(--dark);
+        }
+
+        .team {
+            padding: 100px 0;
+            background-color: var(--light);
+        }
+
+        .team-title {
+            text-align: center;
+            margin-bottom: 70px;
+            opacity: 0;
+            transform: translateY(30px);
+        }
+
+        .founders {
+            display: flex;
+            justify-content: center;
+            gap: 50px;
+        }
+
+        .founder-card {
+            background-color: #fff;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+            width: 300px;
+            text-align: center;
+            transition: transform 0.3s ease;
+            opacity: 0;
+            transform: translateY(30px);
+        }
+
+        .founder-card:hover {
+            transform: translateY(-10px);
+        }
+
+        .founder-image {
+            width: 100%;
+            height: 300px;
+            overflow: hidden;
+        }
+
+        .founder-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.3s ease;
+        }
+
+        .founder-card:hover .founder-image img {
+            transform: scale(1.05);
+        }
+
+        .founder-info {
+            padding: 20px;
+        }
+
+        .founder-info h3 {
+            font-size: 1.5rem;
+            margin-bottom: 5px;
+            color: var(--dark);
+        }
+
+        .founder-info p {
+            color: var(--primary);
+            font-weight: 500;
+            margin-bottom: 15px;
+        }
+
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-top: 15px;
+        }
+
+        .social-links a {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            background-color: var(--light);
+            color: var(--dark);
+            transition: all 0.3s ease;
+        }
+
+        .social-links a:hover {
+            background-color: var(--primary);
+            color: white;
+        }
+
+        .cta {
+            padding: 100px 0;
+            background: linear-gradient(rgba(255, 255, 255, 0.9), rgba(255, 255, 255, 0.9)), url('/api/placeholder/1920/1080') center/cover fixed no-repeat;
+            text-align: center;
+        }
+
+        .cta-content {
+            max-width: 700px;
+            margin: 0 auto;
+            opacity: 0;
+            transform: translateY(30px);
+        }
+
+        .cta h2 {
+            font-size: 2.8rem;
+            margin-bottom: 20px;
+        }
+
+        .cta p {
+            font-size: 1.1rem;
+            margin-bottom: 30px;
+        }
+
+        .download-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+        }
+
+        .app-btn {
+            display: flex;
+            align-items: center;
+            padding: 12px 25px;
+            background-color: var(--dark);
+            color: white;
+            border-radius: 10px;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+
+        .app-btn:hover {
+            background-color: var(--primary);
+        }
+
+        .app-btn span {
+            font-size: 0.7rem;
+            display: block;
+        }
+
+        .app-btn strong {
+            font-size: 1.1rem;
+        }
+
+        footer {
+            background-color: var(--dark);
+            padding: 50px 0 20px;
+            color: white;
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr 1fr;
+            gap: 40px;
+            margin-bottom: 40px;
+        }
+
+        .footer-logo {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: white;
+            margin-bottom: 20px;
+            display: inline-block;
+        }
+
+        .footer-logo span {
+            color: var(--primary);
+        }
+
+        .footer-about p {
+            line-height: 1.6;
+            margin-bottom: 20px;
+        }
+
+        .footer-links h4 {
+            font-size: 1.2rem;
+            margin-bottom: 20px;
+            position: relative;
+            display: inline-block;
+        }
+
+        .footer-links h4:after {
+            content: '';
+            position: absolute;
+            width: 50%;
+            height: 2px;
+            background-color: var(--primary);
+            bottom: -5px;
+            left: 0;
+        }
+
+        .footer-links ul {
+            list-style: none;
+        }
+
+        .footer-links ul li {
+            margin-bottom: 10px;
+        }
+
+        .footer-links ul li a {
+            color: #ccc;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .footer-links ul li a:hover {
+            color: var(--primary);
+        }
+
+        .footer-bottom {
+            text-align: center;
+            padding-top: 20px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        @media (max-width: 992px) {
+            h1 {
+                font-size: 2.8rem;
+            }
+
+            .hero-image {
+                width: 45%;
+            }
+
+            .features-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .footer-content {
+                grid-template-columns: 1fr 1fr;
+                gap: 30px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .about-content {
+                flex-direction: column;
+            }
+
+            .about-image {
+                order: -1;
+            }
+
+            .founders {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .features-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .footer-content {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 576px) {
+            h1 {
+                font-size: 2.2rem;
+            }
+
+            .hero {
+                text-align: center;
+            }
+
+            .hero-image {
+                display: none;
+            }
+
+            .hero-text {
+                max-width: 100%;
+            }
+
+            .btn {
+                display: block;
+                margin-bottom: 15px;
+            }
+
+            .btn-secondary {
+                margin-left: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container nav-container">
+            <a href="#" class="logo">Ride<span>Her</span></a>
+            <nav>
+                <ul>
+                    <li><a href="#home">Home</a></li>
+                    <li><a href="#about">About</a></li>
+                    <li><a href="#features">Features</a></li>
+                    <li><a href="#team">Team</a></li>
+                    <li><a href="#contact">Contact</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <section id="home" class="hero">
+        <div class="hero-content">
+            <div class="hero-text">
+                <h1>Safe Rides <span>Designed</span> For Women</h1>
+                <p>Experience peace of mind with our premium riding service created exclusively for women. Safe, reliable, and comfortable rides at your fingertips.</p>
+                <a href="#" class="btn">Get Started</a>
+                <a href="#" class="btn btn-secondary">Learn More</a>
+            </div>
+        </div>
+        <div class="hero-image">
+            <img src="image.jpg" alt="Woman with smartphone using riding service app">
+        </div>
+    </section>
+
+    <section id="about" class="about">
+        <div class="container about-content">
+            <div class="about-text">
+                <h2>Why Choose Us?</h2>
+                <p>At RideHer, we understand the unique transportation needs and concerns of women. Founded with a mission to create a safer and more comfortable riding experience, we've built a service that puts your safety first.</p>
+                <p>Our female drivers are thoroughly vetted, professionally trained, and committed to providing exceptional service. With features designed specifically for women's safety and comfort, we're not just a riding service—we're a community.</p>
+                <a href="#" class="btn">Learn About Our Mission</a>
+            </div>
+            <div class="about-image">
+                <img src="/api/placeholder/600/400" alt="Female driver with passenger">
+            </div>
+        </div>
+    </section>
+
+    <section id="features" class="features">
+        <div class="container">
+            <div class="features-title">
+                <h2>What Makes Us Different</h2>
+                <p>Designed with your safety and comfort in mind.</p>
+            </div>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">♀️</div>
+                    <h3>Female Drivers</h3>
+                    <p>All our drivers are women, thoroughly background-checked and professionally trained for your peace of mind.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🛡️</div>
+                    <h3>Safety Features</h3>
+                    <p>Real-time tracking, emergency alerts, ride sharing, and driver rating systems for maximum security.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">⭐</div>
+                    <h3>Premium Experience</h3>
+                    <p>Enjoy a comfortable, clean ride with amenities designed for women's needs and preferences.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🔒</div>
+                    <h3>Privacy Protection</h3>
+                    <p>Your personal information and travel history are kept secure and confidential at all times.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">📱</div>
+                    <h3>Easy Booking</h3>
+                    <p>Intuitive app interface makes booking, scheduling, and managing your rides quick and simple.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">💬</div>
+                    <h3>24/7 Support</h3>
+                    <p>Our dedicated support team is always available to assist you with any questions or concerns.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="team" class="team">
+        <div class="container">
+            <div class="team-title">
+                <h2>Meet Our Founders</h2>
+                <p>Visionaries committed to transforming transportation for women.</p>
+            </div>
+            <div class="founders">
+                <div class="founder-card">
+                    <div class="founder-image">
+                        <img src="#" alt="Lakshya Asthana">
+                    </div>
+                    <div class="founder-info">
+                        <h3>Lakshya Asthana</h3>
+                        <p>Founder & CEO</p>
+                        <div class="social-links">
+                            <a href="#"><span>in</span></a>
+                            <a href="#"><span>tw</span></a>
+                            <a href="#"><span>ig</span></a>
+                        </div>
+                    </div>
+                </div>
+                <div class="founder-card">
+                    <div class="founder-image">
+                        <img src="#" alt="Aaradhya Krishna Raj">
+                    </div>
+                    <div class="founder-info">
+                        <h3>Aaradhya Krishna Raj</h3>
+                        <p>Co-Founder & COO</p>
+                        <div class="social-links">
+                            <a href="#"><span>in</span></a>
+                            <a href="#"><span>tw</span></a>
+                            <a href="#"><span>ig</span></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="contact" class="cta">
+        <div class="container">
+            <div class="cta-content">
+                <h2>Download Our App Today</h2>
+                <p>Join thousands of women who trust RideHer for their daily transportation needs. Your safety is our priority.</p>
+                <div class="download-buttons">
+                    <a href="#" class="app-btn">
+                        <span>Download on the</span>
+                        <strong>App Store</strong>
+                    </a>
+                    <a href="#" class="app-btn">
+                        <span>Get it on</span>
+                        <strong>Google Play</strong>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-about">
+                    <a href="#" class="footer-logo">Ride<span>Her</span></a>
+                    <p>RideHer is dedicated to providing safe, reliable, and comfortable rides for women by women. Join our community today and experience the difference.</p>
+                </div>
+                <div class="footer-links">
+                    <h4>Quick Links</h4>
+                    <ul>
+                        <li><a href="#home">Home</a></li>
+                        <li><a href="#about">About</a></li>
+                        <li><a href="#features">Features</a></li>
+                        <li><a href="#team">Team</a></li>
+                        <li><a href="#contact">Contact</a></li>
+                    </ul>
+                </div>
+                <div class="footer-links">
+                    <h4>Company</h4>
+                    <ul>
+                        <li><a href="#">Careers</a></li>
+                        <li><a href="#">Press</a></li>
+                        <li><a href="#">Blog</a></li>
+                        <li><a href="#">Partner with Us</a></li>
+                    </ul>
+                </div>
+                <div class="footer-links">
+                    <h4>Legal</h4>
+                    <ul>
+                        <li><a href="#">Terms of Service</a></li>
+                        <li><a href="#">Privacy Policy</a></li>
+                        <li><a href="#">Cookie Policy</a></li>
+                        <li><a href="#">Safety</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 RideHer. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Header scroll effect
+        window.addEventListener('scroll', function() {
+            const header = document.querySelector('header');
+            header.classList.toggle('scrolled', window.scrollY > 50);
+        });
+
+        // Initialize GSAP animations
+        document.addEventListener('DOMContentLoaded', function() {
+            // Hero section animations
+            gsap.to('.hero-text', {
+                opacity: 1,
+                y: 0,
+                duration: 1,
+                ease: 'power3.out'
+            });
+
+            gsap.to('.hero-image', {
+                opacity: 1,
+                x: 0,
+                duration: 1,
+                delay: 0.3,
+                ease: 'power3.out'
+            });
+
+            // About section animations
+            gsap.to('.about-text', {
+                scrollTrigger: {
+                    trigger: '.about',
+                    start: 'top 80%',
+                },
+                opacity: 1,
+                y: 0,
+                duration: 0.8,
+                ease: 'power3.out'
+            });
+
+            gsap.to('.about-image', {
+                scrollTrigger: {
+                    trigger: '.about',
+                    start: 'top 80%',
+                },
+                opacity: 1,
+                x: 0,
+                duration: 0.8,
+                delay: 0.2,
+                ease: 'power3.out'
+            });
+
+            // Features section animations
+            gsap.to('.features-title', {
+                scrollTrigger: {
+                    trigger: '.features',
+                    start: 'top 80%',
+                },
+                opacity: 1,
+                y: 0,
+                duration: 0.8,
+                ease: 'power3.out'
+            });
+
+            gsap.to('.feature-card', {
+                scrollTrigger: {
+                    trigger: '.features-grid',
+                    start: 'top 80%',
+                },
+                opacity: 1,
+                y: 0,
+                duration: 0.6,
+                stagger: 0.15,
+                ease: 'power3.out'
+            });
+
+            // Team section animations
+            gsap.to('.team-title', {
+                scrollTrigger: {
+                    trigger: '.team',
+                    start: 'top 80%',
+                },
+                opacity: 1,
+                y: 0,
+                duration: 0.8,
+                ease: 'power3.out'
+            });
+
+            gsap.to('.founder-card', {
+                scrollTrigger: {
+                    trigger: '.founders',
+                    start: 'top 80%',
+                },
+                opacity: 1,
+                y: 0,
+                duration: 0.6,
+                stagger: 0.2,
+                ease: 'power3.out'
+            });
+
+            // CTA section animations
+            gsap.to('.cta-content', {
+                scrollTrigger: {
+                    trigger: '.cta',
+                    start: 'top 80%',
+                },
+                opacity: 1,
+                y: 0,
+                duration: 0.8,
+                ease: 'power3.out'
+            });
+        });
+    </script>
+</body>
+</html>
